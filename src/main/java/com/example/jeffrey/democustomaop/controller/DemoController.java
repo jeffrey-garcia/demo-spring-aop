@@ -24,4 +24,11 @@ public class DemoController {
         return "test2";
     }
 
+    @GetMapping("/test4")
+    public @ResponseBody String test4() {
+        demoService.execute4("test execute 4");
+        return "test4";
+    }
+
+
 }

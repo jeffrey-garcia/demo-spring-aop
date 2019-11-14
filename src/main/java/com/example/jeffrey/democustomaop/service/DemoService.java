@@ -5,6 +5,7 @@ import com.example.jeffrey.democustomaop.annotation.JavaCompositeIntercept;
 import com.example.jeffrey.democustomaop.annotation.JavaIntercept;
 import com.example.jeffrey.democustomaop.aop.SpringChainedIntercept;
 import com.example.jeffrey.democustomaop.aop.SpringIntercept;
+import com.example.jeffrey.democustomaop.aop.SpringIntercept2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,15 @@ public class DemoService {
     public void execute3() {
         annotationProcessor.javaCompositeIntercept(Thread.currentThread().getStackTrace()[1]);
         LOGGER.debug("execute 3...");
+    }
+
+    @SpringIntercept2(method = "execute5")
+    public void execute4(String param) {
+        LOGGER.debug("execute 4...");
+    }
+
+    public void execute5(String param) {
+        LOGGER.debug("execute 5...");
     }
 
 }
