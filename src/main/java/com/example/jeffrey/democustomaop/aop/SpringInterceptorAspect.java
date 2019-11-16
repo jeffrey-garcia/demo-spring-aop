@@ -1,22 +1,22 @@
 package com.example.jeffrey.democustomaop.aop;
 
+import com.example.jeffrey.demoaoplib.config.DemoConfig;
 import com.example.jeffrey.democustomaop.service.DemoService;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.expression.ExpressionParser;
-import org.springframework.expression.spel.standard.SpelExpressionParser;
 
 import java.lang.reflect.Method;
 
 @Aspect
 public class SpringInterceptorAspect {
     private static final Logger LOGGER = LoggerFactory.getLogger(SpringInterceptorAspect.class);
-
-    ExpressionParser elParser = new SpelExpressionParser();
 
     @Autowired
     DemoService demoService;
@@ -68,5 +68,14 @@ public class SpringInterceptorAspect {
         }
     }
 
+    @Pointcut("@within(com.example.jeffrey.democustomaop.aop.SpringIntercept3)")
+    public void annotatedClass() {}
+
+    @Before("execution(* *(..)) && (annotatedClass())")
+    public void executeSpringIntercept3(JoinPoint joinPoint) {
+        LOGGER.debug("execute spring intercept 3: {}", joinPoint);
+        DemoConfig.springIntercept3.compareAndSet(false, true);
+        LOGGER.debug("AopConfig: {}", DemoConfig.springIntercept3.get());
+    }
 
 }
