@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DemoService {
+public class DemoService extends AbstractService {
     private static final Logger LOGGER = LoggerFactory.getLogger(DemoService.class);
 
     @Autowired
@@ -49,4 +49,15 @@ public class DemoService {
         LOGGER.debug("execute 5...");
     }
 
+    @Override
+    public boolean execute(String s) {
+        LOGGER.debug("execute 0...");
+        return true;
+    }
+
+    @Override
+    public boolean execute(String s1, String s2) {
+        LOGGER.debug("execute 0 with 2 params...");
+        return true;
+    }
 }

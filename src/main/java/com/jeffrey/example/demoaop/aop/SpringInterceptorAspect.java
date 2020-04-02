@@ -21,6 +21,12 @@ public class SpringInterceptorAspect {
     @Autowired
     DemoService demoService;
 
+    @Around("execution(* com.jeffrey.example.demoaop.service.FinalService.execute(..))")
+    public Object springIntercept(ProceedingJoinPoint joinPoint) throws Throwable {
+        return joinPoint.proceed();
+    }
+
+
     @Around("@annotation(SpringIntercept) && args(message,..)")
     public Object springIntercept(ProceedingJoinPoint joinPoint, String message) throws Throwable {
         executeSpringIntercept();
