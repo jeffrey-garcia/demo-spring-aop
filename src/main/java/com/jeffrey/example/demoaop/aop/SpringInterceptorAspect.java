@@ -21,8 +21,50 @@ public class SpringInterceptorAspect {
     @Autowired
     DemoService demoService;
 
-    @Around("execution(* com.jeffrey.example.demoaop.service.FinalService.execute(..))")
+    /**
+     * boolean execute(String s) is NOT overriden by ParentService.java
+     * boolean execute(String s1, String s2) is overriden by ParentService.java
+     *
+     * With the {@link Pointcut} expression specifying the {@link com.jeffrey.example.demoaop.service.ParentService} class,
+     * invoking the following methods in the base code will yields different behavior:
+     *
+     * <p>
+     *  {@link com.jeffrey.example.demoaop.service.ParentService#execute(String)}
+     *  - the advice won't be triggered and no interception occur
+     * </p>
+     *
+     * <p>
+     *  {@link com.jeffrey.example.demoaop.service.ParentService#execute(String, String)}
+     *  - the advice will be triggered and interception will occur
+     * </p>
+     *
+     * <p>
+     * With the Pointcut expression specifying the {@link com.jeffrey.example.demoaop.service.Service} class,
+     * invoking both methods from the base code will then be guaranteed to trigger the advice and
+     * interception will occur
+     * </p>
+     *
+     * <p>
+     * See <a href="https://www.eclipse.org/aspectj/doc/released/progguide/semantics-pointcuts.html">HERE:</a>
+     * </p>
+     *
+     * <i>When matching method-execution join points, if the execution pointcut method
+     * signature specifies a declaring type, the pointcut will only match methods declared
+     * in that type, or methods that override methods declared in or inherited by that type.
+     * So the pointcut</i>
+     */
+    @Around("execution(* com.jeffrey.example.demoaop.service.Service.execute(..)) && !within(is(FinalType))")
     public Object springIntercept(ProceedingJoinPoint joinPoint) throws Throwable {
+        // the class of the actual instance of joinPoint
+        String joinPointTargetClassName = joinPoint.getTarget().getClass().getTypeName();
+        LOGGER.debug("join point target class name: {}", joinPointTargetClassName);
+
+        // the class where the join point is intercepted
+        String joinPointClassName = joinPoint.getSignature().getDeclaringTypeName();
+        LOGGER.debug("join point class name: {}", joinPointClassName);
+        String joinPointMethodName = joinPoint.getSignature().getName();
+        LOGGER.debug("join point method name: {}", joinPointMethodName);
+
         return joinPoint.proceed();
     }
 
