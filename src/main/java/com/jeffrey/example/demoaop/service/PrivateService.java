@@ -5,18 +5,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
-class PrivateService extends AbstractService {
+class PrivateService extends DemoService {
     private static final Logger LOGGER = LoggerFactory.getLogger(PrivateService.class);
 
-    @Override
-    public boolean execute(String s) {
-        LOGGER.debug("execute ...");
-        return true;
-    }
+//    @Override
+//    public boolean execute(String s) {
+//        LOGGER.debug("execute ...");
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean execute(String s1, String s2) {
+//        LOGGER.debug("execute with 2 params ...");
+//        return true;
+//    }
 
-    @Override
-    public boolean execute(String s1, String s2) {
-        LOGGER.debug("execute with 2 params ...");
-        return true;
-    }
 }

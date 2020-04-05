@@ -12,7 +12,19 @@ import java.util.Map;
 public class DemoAnnotationTests {
 
     @Test
-    public void test1() throws Exception {
+    public void verifyJavaIntercept() throws Exception {
+        Class demoServiceClass = Class.forName("com.jeffrey.example.demoaop.service.DemoService");
+        Method[] methods = demoServiceClass.getDeclaredMethods();
+        for (Method method : methods) {
+            if (method.isAnnotationPresent(JavaIntercept.class)) {
+                JavaIntercept annotation = method.getAnnotation(JavaIntercept.class);
+                Assert.assertEquals("", annotation.value());
+            }
+        }
+    }
+
+    @Test
+    public void verifySpringIntercept() throws Exception {
         Class demoServiceClass = Class.forName("com.jeffrey.example.demoaop.service.DemoService");
         Method[] methods = demoServiceClass.getDeclaredMethods();
         for (Method method : methods) {
