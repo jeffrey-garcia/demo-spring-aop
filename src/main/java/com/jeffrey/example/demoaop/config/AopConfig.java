@@ -14,6 +14,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
  * If you opt for autodetect through classpath scanning,
  * you are required to add a separate @Component annotation
  * to the aspect class together with @Aspect annotation
+ *
  */
 //@ComponentScan("com.example.jeffrey.demoaop.aop")
 @Configuration
